@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "719895474411",
+    "project_id": "palana-b53ab",
+    "storage_bucket": "palana-b53ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719895474411:android:e239ac84893d310c14ceae",
+        "android_client_info": {
+          "package_name": "com.microclouds.palana_neurosync"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719895474411-ae4gfmsjdmtbj47v8i96qcksom07g0t5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6I4JeO4JfAC4z0vYEaliGpIB26JlKeQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719895474411-ae4gfmsjdmtbj47v8i96qcksom07g0t5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

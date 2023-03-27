@@ -10,11 +10,10 @@ class BlockButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FlatButton(
-        onPressed: this.onPressed,
+      child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20,vertical: 14),
         color: this.color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Row(
           crossAxisAlignment:CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

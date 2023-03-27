@@ -1,3 +1,5 @@
+
+
 abstract class Routes {
 
   static const INITIALROOT = '/firstsplashscreen';
@@ -8,5 +10,8 @@ abstract class Routes {
   static const ALLPACKAGESPAGE = '/allpackagespage';
   static const ABOUTUSPAGE = '/aboutuspage';
   static const PLAYAUDIOPAGE = '/playaudiopage';
-
+  static const VIDEOPLAYERSCREEN = '/videoPlayer';
+  static const OTPSCREEN = '/otpscreen';
+  static const DOWNLOADSCREEN = '/downloadscreen';
+  // static const NOINTERNET = '/nointernetscreen';
 }

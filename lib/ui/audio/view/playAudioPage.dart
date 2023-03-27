@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:palana_neurosync/common/assetImages.dart';
 import 'package:palana_neurosync/ui/homeDetail/controller/home_details_controller.dart';
 
-class PlayAudioPage extends GetView<HomeDetailsController> {
+class PlayAudioPage extends StatelessWidget {
+  // String? songUrl;
+  // PlayAudioPage({required this.songUrl});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,22 +32,20 @@ class PlayAudioPage extends GetView<HomeDetailsController> {
               SizedBox(
                 height: 20,
               ),
-              Obx(
-                () => Container(
-                  margin: EdgeInsets.only(left: 20, right: 20),
-                  child: Slider(
-                    min: 0,
-                    max: controller.duration.value.inSeconds.toDouble(),
-                    value: controller.position.value.inSeconds.toDouble(),
-                    inactiveColor: Colors.grey.withOpacity(0.5),
-                    activeColor: Colors.white,
-                    thumbColor: Colors.red,
-                    onChanged: (value) async {
-                      final position = Duration(seconds: value.toInt());
-                      await controller.audioPlayer.value.seek(position);
-                      await controller.audioPlayer.value.resume();
-                    },
-                  ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Slider(
+                  min: 0,
+                  max: 00,
+                  value: 00,
+                  inactiveColor: Colors.grey.withOpacity(0.5),
+                  activeColor: Colors.white,
+                  thumbColor: Colors.red,
+                  onChanged: (value) async {
+                    // final position = Duration(seconds: value.toInt());
+                    // await controller.audioPlayer.value.seek(position);
+                    // await controller.audioPlayer.value.resume();
+                  },
                 ),
               ),
               Container(
@@ -55,18 +55,13 @@ class PlayAudioPage extends GetView<HomeDetailsController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        () => Text(
-                          controller.position.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Text(
+                        '0',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      Obx(
-                        () => Text(
-                          (controller.duration.value - controller.position.value)
-                              .toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Text(
+                        ('0').toString(),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
@@ -80,20 +75,16 @@ class PlayAudioPage extends GetView<HomeDetailsController> {
                   backgroundColor: Colors.white,
                   child: IconButton(
                     onPressed: () async {
-                      if (controller.isPlaying.value) {
-                        await controller.audioPlayer.value.pause();
-                      } else {
-                        await controller.audioPlayer.value.resume();
-                      }
+                      // if (controller.isPlaying.value) {
+                      //   await controller.audioPlayer.value.pause();
+                      // } else {
+                      //   await controller.audioPlayer.value.resume();
+                      // }
                     },
-                    icon: Obx(
-                      () => Icon(
+                    icon: Icon(
                         size: 30,
-                          controller.isPlaying.value
-                              ? Icons.pause
-                              : Icons.play_arrow,
-                          color: Colors.transparent.withOpacity(0.5)),
-                    ),
+                        Icons.play_arrow,
+                        color: Colors.transparent.withOpacity(0.5)),
                     iconSize: 50,
                   ),
                 ),

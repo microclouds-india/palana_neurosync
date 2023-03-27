@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BenifitsSection extends StatelessWidget {
-  const BenifitsSection({Key? key}) : super(key: key);
+  String benefits;
+  BenifitsSection({required this.benefits});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,8 @@ class BenifitsSection extends StatelessWidget {
 
   Widget headingWidget() {
     return Container(
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0, bottom: 10.0),
+      margin: const EdgeInsets.only(
+          left: 10.0, right: 10.0, top: 15.0, bottom: 10.0),
       child: const Align(
         alignment: AlignmentDirectional.centerStart,
         child: Text(
@@ -43,7 +45,7 @@ class BenifitsSection extends StatelessWidget {
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       padding: const EdgeInsets.only(top: 0),
-      itemCount: 3,
+      itemCount: 1,
       itemBuilder: (_, index) {
         return Row(
           children: [
@@ -51,15 +53,14 @@ class BenifitsSection extends StatelessWidget {
               value: 2,
               groupValue: 2,
               activeColor: Colors.deepPurple.shade800,
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
             ),
             Flexible(
               flex: 1,
               child: Container(
                 margin: const EdgeInsets.only(right: 10),
-                child: const Text("Improves concentration",
+                child: Text(
+                  benefits,
                   overflow: TextOverflow.visible,
                   softWrap: true,
                   style: TextStyle(

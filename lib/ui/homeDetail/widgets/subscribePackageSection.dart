@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:palana_neurosync/routes/app_routes.dart';
+import '../../packageDetails/view/packageDetailsPage.dart';
 
 class SubscribePackageSection extends StatelessWidget {
+  String tittle;
+  String id;
+  String description;
+  String days;
+  String newAmount;
+  String oldAmount;
+  String packageName;
+  String benefites;
   SubscribePackageSection(
-      {required String title,
-      required String description,
-      required String days,
-      required String newAmount,
-      required String oldAmount});
+      {required this.tittle,
+      required this.id,
+      required this.description,
+      required this.days,
+      required this.packageName,
+      required this.benefites,
+      required this.newAmount,
+      required this.oldAmount,});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.PACKAGEDETAILSPAGE);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return PackageDetailsPage(
+              id: id,
+              packageName: packageName,
+              description: description,
+              benafits: benefites,
+              days: days,
+              newPrize: newAmount,
+              oldPrize: oldAmount);
+        }));
       },
       child: Container(
         margin: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -24,10 +43,7 @@ class SubscribePackageSection extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: <Color>[
-              Colors.pink.shade600,
-              Colors.deepPurple.shade800,
-            ],
+            colors: <Color>[Colors.pink.shade600, Colors.deepPurple.shade800],
           ),
         ),
         child: Column(
@@ -41,17 +57,18 @@ class SubscribePackageSection extends StatelessWidget {
                   activeColor: Colors.yellow.shade800,
                   onChanged: (value) {},
                 ),
-                textData("Vikas", 15, TextOverflow.visible, FontWeight.bold),
+                textData(
+                    packageName, 15, TextOverflow.visible, FontWeight.bold),
               ],
             ),
-            textData("Title description", 10, TextOverflow.ellipsis,
-                FontWeight.normal),
+            textData(description, 10, TextOverflow.ellipsis, FontWeight.normal),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textData("180 Days", 15, TextOverflow.visible, FontWeight.bold),
-                textData("2999.00", 15, TextOverflow.visible, FontWeight.bold),
+                textData(
+                    '$days Days', 15, TextOverflow.visible, FontWeight.bold),
+                textData(newAmount, 15, TextOverflow.visible, FontWeight.bold),
               ],
             ),
             SizedBox(height: 5),
@@ -60,7 +77,7 @@ class SubscribePackageSection extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "1999.00",
+                  oldAmount,
                   overflow: TextOverflow.visible,
                   softWrap: true,
                   style: TextStyle(

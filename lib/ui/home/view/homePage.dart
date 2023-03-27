@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:palana_neurosync/ui/downloads/view/downloadsPage.dart';
 import 'package:palana_neurosync/ui/home/controller/home_controller.dart';
@@ -7,7 +8,12 @@ import 'package:palana_neurosync/ui/notifications/view/notificationPage.dart';
 import 'package:palana_neurosync/ui/profile/view/profilePage.dart';
 import 'package:palana_neurosync/ui/waves/view/wavesPage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
@@ -32,21 +38,14 @@ class HomePage extends StatelessWidget {
             currentIndex: controller.tabIndex,
             type: BottomNavigationBarType.fixed,
             items: [
+              _bottomNavigationBarItem(iconData: Icons.home, label: "Home"),
+              _bottomNavigationBarItem(iconData: Icons.waves, label: "Waves"),
               _bottomNavigationBarItem(
-                  iconData: Icons.home,
-                label: "Home"),
+                  iconData: Icons.library_music_outlined, label: "Profile"),
               _bottomNavigationBarItem(
-                  iconData: Icons.waves,
-                  label: "Waves"),
+                  iconData: Icons.notifications, label: "Notifications"),
               _bottomNavigationBarItem(
-                  iconData: Icons.library_music_outlined,
-                  label: "Profile"),
-              _bottomNavigationBarItem(
-                  iconData: Icons.notifications,
-                  label: "Notifications"),
-              _bottomNavigationBarItem(
-                  iconData: Icons.person,
-                  label: "Profile"),
+                  iconData: Icons.person, label: "Profile"),
             ],
           ),
         );
@@ -54,7 +53,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _bottomNavigationBarItem({required IconData iconData, required String label}) {
+  _bottomNavigationBarItem(
+      {required IconData iconData, required String label}) {
     return BottomNavigationBarItem(
       icon: Icon(iconData),
       label: label,

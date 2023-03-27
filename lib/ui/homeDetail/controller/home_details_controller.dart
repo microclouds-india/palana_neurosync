@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
 
-class HomeDetailsController extends GetxController {
+class AudioBottom extends GetxController {
 
   final audioPlayer = AudioPlayer().obs;
   var isPlaying = false.obs;

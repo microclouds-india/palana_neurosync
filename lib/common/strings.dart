@@ -2,6 +2,7 @@ class Strings{
 
   var caring_quote = 'Caring billions of brains';
 
+  var goodAfternoon = 'Good Afternoon';
   var goodMorning = 'Good Morning';
   var quote = "Education is the manifestation of perfection already existing in man \n\n- Swami Vivekananda";
 
@@ -13,7 +14,7 @@ class Strings{
 
   var giftWavesHeading = "Gift Waves";
   var moreWavesHeading = "More Waves";
-
+  var Cource = "Course";
   var reminder = "Reminder";
   var subscriptions = "Subscriptions";
   var blog = "Blog";

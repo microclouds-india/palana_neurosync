@@ -32,12 +32,10 @@ class AllPackagesPge extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AllPackagesSection(),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(child: AllPackagesSection()),
+        ],
       ),
     );
   }

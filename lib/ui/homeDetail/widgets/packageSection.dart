@@ -1,13 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
-import 'package:palana_neurosync/common/assetImages.dart';
+import 'package:palana_neurosync/Database/Init%20Database/initDatabase.dart';
 import 'package:palana_neurosync/common/strings.dart';
-import 'package:palana_neurosync/routes/app_routes.dart';
 import 'package:palana_neurosync/ui/homeDetail/widgets/subscribePackageSection.dart';
+import 'package:palana_neurosync/ui/homeDetail/widgets/videoplayerAndAudio.dart';
+import 'package:palana_neurosync/ui/packageDetails/view/packageDetailsPage.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../allPackages/view/AllPackagesPage.dart';
+import '../view/audiobottom.dart';
 
-class PackageSection extends StatelessWidget {
-  const PackageSection({Key? key}) : super(key: key);
+class PackageSection extends StatefulWidget {
+  String id;
+  String videourl;
 
+  String packageName;
+  String packageDiscription;
+  String days;
+  String prize;
+  String cutPrize;
+  String audioUrl;
+  String benefits;
+  String img;
+  bool premiumUser;
+  PackageSection(
+      {required this.packageName,
+      required this.premiumUser,
+      required this.videourl,
+      required this.id,
+      required this.img,
+      required this.benefits,
+      required this.audioUrl,
+      required this.packageDiscription,
+      required this.days,
+      required this.prize,
+      required this.cutPrize});
+
+  @override
+  State<PackageSection> createState() => _PackageSectionState();
+}
+
+double _progress = 0;
+bool downloading = false;
+
+class _PackageSectionState extends State<PackageSection> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,8 +66,7 @@ class PackageSection extends StatelessWidget {
                 height: 80,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child:
-                      Image.asset(AssetImages().quote_bg, fit: BoxFit.cover),
+                  child: Image.network(widget.img, fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -40,9 +75,9 @@ class PackageSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    "Title",
+                    "${widget.packageName}",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Colors.black,
@@ -51,7 +86,7 @@ class PackageSection extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Description",
+                    "${widget.packageDiscription}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.black, fontSize: 13),
                   ),
@@ -65,14 +100,104 @@ class PackageSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Align(
-                    alignment: Alignment.centerRight,
-                    child: Icon(Icons.download_for_offline_outlined, color: Colors.deepPurple.shade800,),
-                  ),
+                      alignment: Alignment.centerRight,
+                      child: downloading
+                          ? GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _progress = 0;
+                                  downloading = false;
+                                });
+                              },
+                              child: CircularPercentIndicator(
+                                radius: 20.0,
+                                lineWidth: 5.0,
+                                percent: 1.0,
+                                center: Text(
+                                  _progress.toString(),
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                progressColor: Colors.deepPurple.shade50,
+                              ),
+                            )
+                          : IconButton(
+                              onPressed: () async {
+                                if (widget.premiumUser == true) {
+                                  String? imagePath;
+                                  await FileDownloader.downloadFile(
+                                    url: widget.img,
+                                    onDownloadCompleted: (path) {
+                                      imagePath = path;
+                                      print(imagePath);
+                                    },
+                                  );
+                                  await FileDownloader.downloadFile(
+                                    url: widget.audioUrl,
+                                    name: widget.packageName,
+                                    onProgress:
+                                        (String? fileName, double progress) {
+                                      setState(() {
+                                        downloading = true;
+                                      });
+                                      setState(() {
+                                        _progress = progress;
+                                      });
+                                    },
+                                    onDownloadCompleted: (path) {
+                                      setState(() async {
+                                        addLocalDataBase(
+                                            path,
+                                            widget.packageName,
+                                            widget.packageDiscription,
+                                            imagePath!);
+                                      });
+                                    },
+                                  );
+
+                                  setState(() {
+                                    downloading = false;
+                                  });
+                                } else {
+                                  getBottomSheetPackage();
+                                }
+                              },
+                              icon: Icon(
+                                Icons.download_for_offline_outlined,
+                                color: Colors.deepPurple.shade800,
+                              ),
+                            )),
                   const SizedBox(width: 10),
                   Align(
-                    alignment: Alignment.centerRight,
-                    child: Icon(Icons.play_circle_outline, color: Colors.deepPurple.shade800,),
-                  ),
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        onPressed: () {
+                          // if (widget.premiumUser == true) {
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   builder: (context) => MusicPlayerBottomSheet(
+                          //     musicUrl: widget.free
+                          //         ? 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+                          //         : widget.audioUrl,
+                          //   ),
+                          // );
+                          print(widget.audioUrl);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return VideoPlayerAndAudio(
+                              videoUrl: widget.videourl,
+                              AudioUrl: widget.audioUrl,
+                            );
+                          }));
+                          // } else {
+                          //   getBottomSheetPackage();
+                          // }
+                        },
+                        icon: Icon(
+                          Icons.play_circle_outline,
+                          color: Colors.deepPurple.shade800,
+                        ),
+                        iconSize: 20,
+                      )),
                 ],
               ),
             ),
@@ -82,7 +207,7 @@ class PackageSection extends StatelessWidget {
     );
   }
 
-  Future getBottomSheetPackage(){
+  Future getBottomSheetPackage() {
     return Get.bottomSheet(
       barrierColor: Colors.black.withOpacity(0.5),
       isDismissible: true,
@@ -103,30 +228,55 @@ class PackageSection extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    getIconData(Icons.close, Colors.red),
+                    GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: getIconData(Icons.close, Colors.red)),
                     SizedBox(height: 20),
-                    textData("Start listening vikas", 13.0, FontWeight.normal),
+                    textData("Start listening ${widget.packageName}", 13.0,
+                        FontWeight.normal),
                     SizedBox(height: 20),
-                    textData(Strings().subscribe_package, 17.0, FontWeight.bold),
+                    textData(
+                        Strings().subscribe_package, 17.0, FontWeight.bold),
                     SizedBox(height: 20),
-                    SubscribePackageSection(
-                        title: "Amrith",
-                        description: "The womb melodies",
-                        days: "270 Days",
-                        newAmount: "5500.00",
-                        oldAmount: "4500.00"),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return PackageDetailsPage(
+                              id: widget.id,
+                              packageName: widget.packageName,
+                              description: widget.packageDiscription,
+                              benafits: widget.benefits,
+                              days: widget.days,
+                              newPrize: widget.prize,
+                              oldPrize: widget.cutPrize);
+                        }));
+                      },
+                      child: SubscribePackageSection(
+                          id: widget.id,
+                          benefites: widget.benefits,
+                          packageName: widget.packageName,
+                          tittle: widget.packageName,
+                          description: widget.packageDiscription,
+                          days: widget.days,
+                          newAmount: widget.prize,
+                          oldAmount: widget.cutPrize),
+                    ),
                     SizedBox(height: 20),
                     GestureDetector(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          textData("View More", 10, FontWeight.bold),
+                          textData('View More', 10, FontWeight.bold),
                           SizedBox(width: 2),
                           getIconData(Icons.arrow_forward, Colors.black),
                         ],
                       ),
                       onTap: () {
-                        Get.toNamed(Routes.ALLPACKAGESPAGE);
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return AllPackagesPge();
+                        }));
                       },
                     ),
                     SizedBox(height: 20),
@@ -145,7 +295,8 @@ class PackageSection extends StatelessWidget {
       margin: EdgeInsets.only(right: 15.0),
       child: Align(
         alignment: Alignment.centerRight,
-        child: Icon(iconData,
+        child: Icon(
+          iconData,
           color: color,
           size: 20,
         ),
@@ -153,8 +304,9 @@ class PackageSection extends StatelessWidget {
     );
   }
 
-  Widget textData(String text, double size, FontWeight fontWeight){
-    return Text(text,
+  Widget textData(String text, double size, FontWeight fontWeight) {
+    return Text(
+      text,
       style: TextStyle(
         fontSize: size,
         color: Colors.black,

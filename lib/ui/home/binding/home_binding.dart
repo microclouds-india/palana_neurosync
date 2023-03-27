@@ -18,7 +18,7 @@ class HomeBinding extends Bindings {
     Get.lazyPut<PalanaHomeController>(() => PalanaHomeController());
     Get.lazyPut<ProfileController>(() => ProfileController());
     Get.lazyPut<DownloadsController>(() => DownloadsController());
-    Get.put(HomeDetailsController());
+    // Get.put(HomeDetailsController());
     Get.lazyPut<PackageDetailsController>(() => PackageDetailsController());
     Get.lazyPut<AllPackagesController>(() => AllPackagesController());
     // Get.lazyPut<PlayAudioController>(() => PlayAudioController());
